@@ -9,4 +9,4 @@ class Node:
 
     # Método para adicionar um filho ao nó da árvore.
     def add_child(self, node):
-        self.childrens.append(node)
+        self.children.append(node)

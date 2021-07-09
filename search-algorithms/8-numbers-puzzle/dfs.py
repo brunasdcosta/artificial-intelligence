@@ -1,28 +1,41 @@
 from gameboard import GameBoard
 from node import Node
 
-possibilities = set()
-
-# TODO terminar busca
 def dfs(node):
-    print(f'node atual: {node.data}')
+    f.write('\t'*node.depth+f'{node.data} - {node.depth}\n')
+    possibilities.add(node.data)
+    if(node.depth > 5):
+        return node
     children = node.data.find_children()
-    i = 1
     for child in children:
         if child in possibilities:
-            children.remove(child)
             continue
-        possibilities.add(child)
-        print(f'filho {i}: {child}')
         if not child.is_done():
-            dfs(Node(node.depth+1, child))
+            next_node = dfs(Node(node.depth+1, child))
+            node.add_child(next_node)
+        else:
+            solved = True
+            f.write('\t'*(node.depth+1)+f'{child} - {node.depth+1}\n')
+            node.add_child(Node(node.depth+1, child))
+            continue
+    return node
+
+f = open('results.txt', 'a')
 
 init_board = GameBoard()
-# init_board.randomize()
-init_board.set_board([[1, 2, 3], [None, 8, 4], [7, 6, 5]])
+init_board.randomize()
+f.write(f'Estado inicial: {init_board}\n')
+
 if init_board.is_done():
-    print("o jogo ja terminou")
+    f.write('O jogo já está resolvido\n\n')
 else:
     node = Node(0, init_board)
-    possibilities.add(node.data)
+    possibilities = set()
+    solved = False
     dfs(node)
+    if solved:
+        f.write('O jogo foi resolvido\n\n')
+    else:
+        f.write('O jogo não foi resolvido\n\n')
+
+f.close()
