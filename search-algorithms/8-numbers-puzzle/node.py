@@ -2,9 +2,10 @@
 class Node:
 
     # Construtor.
-    def __init__(self, depth, board):
+    def __init__(self, depth=None, board=None, parent=None, children=[]):
         self.data = board
-        self.children = []
+        self.parent = parent
+        self.children = children
         self.depth = depth
 
     # Método para adicionar um filho ao nó da árvore.
