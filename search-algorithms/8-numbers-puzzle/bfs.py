@@ -2,6 +2,7 @@ from gameboard import GameBoard
 from node import Node
 from queue import Queue
 
+limit = 10
 queue = Queue() # Fila para controle da sequência de nós que serão abertos.
 possibilities = set() # Conjunto utilizado para impedir repetição de nós na árvore.
 solved = False # Variável para controlar se o jogo foi resolvido ou não.
@@ -18,7 +19,7 @@ def bfs():
             f.write('\t'*current_node.depth+f'{current_node.data} - Nível {current_node.depth}\n')
         else:
             f.write('\t'*current_node.depth+f'{current_node.data} - Nível {current_node.depth} - Pai {current_node.parent.data}\n')
-        if(current_node.depth > 10): # Definindo um limite máximo para a profundidade da busca.
+        if(current_node.depth >= limit): # Definindo um limite máximo para a profundidade da busca.
             return
         children = current_node.data.find_children() # Calculando os filhos do nó atual a partir do estado do seu tabuleiro.
         for child in children:
@@ -38,7 +39,7 @@ init_board = GameBoard() # Iniciando um novo jogo.
 init_board.randomize() # Randomizando o tabuleiro.
 # init_board.set_board([[1, 2, 3], [8, 6, 4], [7, None, 5]]) # Atribuindo um tabuleiro com um único movimento para ser concluído.
 possibilities.add(init_board) # Adicionando o estado inicial no conjunto de possibilidades.
-f.write(f'Novo jogo! Estado inicial: {init_board}\n')
+f.write(f'Novo jogo usando busca em largura com limite {limit}.\nEstado inicial: {init_board}\n')
 
 if init_board.is_done():
     f.write('O jogo já está resolvido\n\n')
