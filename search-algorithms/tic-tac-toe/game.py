@@ -6,10 +6,15 @@ class TicTacToe:
     # Construtor.
     def __init__(self):
         self.matrix = self.matrix = [[None for j in range(3)] for i in range(3)] # Criando uma matrix de ordem 3.
+        self.winner = None # Valor que indica quem ganhou o jogo, caso ele esteja em um estado final.
 
     # Set da matriz que representa o jogo.
     def set_game(self, matrix):
         self.matrix = matrix
+
+    # Set do vencedor.
+    def set_winner(self, winner):
+        self.winner = winner
 
     # Método para marcar uma jogada.
     # Retorna verdadeiro se, e somente se, a jogada foi realizada com sucesso.
@@ -55,15 +60,20 @@ class TicTacToe:
     # Método que verifica se alguém ganhou o jogo.
     # Retorna 1 se o 'X' ganhou, -1 se o 'O' ganhou e 'None' se ainda não há vitórias.
     def is_done(self):
+        winner_weight = None # Variável que indica o peso.
         # Verificando se há uma tripla nas diagonais.
         if (self.matrix[0][0] == self.matrix[1][1] and self.matrix[1][1] == self.matrix[2][2]) or (self.matrix[0][2] == self.matrix[1][1] and self.matrix[1][1] == self.matrix[2][0]):
-            return self.weight(self.matrix[1][1])
+            winner_weight = self.weight(self.matrix[1][1])
         for k in range(3):
             if self.matrix[k][0] == self.matrix[k][1] and self.matrix[k][1] == self.matrix[k][2]: # Tripla na horizontal.
-                return self.weight(self.matrix[k][0])
+                winner_weight = self.weight(self.matrix[k][0])
             elif self.matrix[0][k] == self.matrix[1][k] and self.matrix[1][k] == self.matrix[2][k]: # Tripla na vertical.
-                return self.weight(self.matrix[0][k])
-        return None
+                winner_weight = self.weight(self.matrix[0][k])
+        if winner_weight == 1:
+            self.winner='x'
+        elif winner_weight == -1:
+            self.winner='o'
+        return winner_weight
 
     # Método que transforma um objeto do tipo TicTacToe em uma string.
     def __str__(self):
@@ -75,3 +85,11 @@ class TicTacToe:
             output += "], " if i<=1 else "]"
         output += "]"
         return output
+
+    # Método para realizar a operação de igualdade entre objetos do tipo TicTacToe.
+    def __eq__(self, other):
+        for i in range(3):
+            for j in range(3):
+                if not self.matrix[i][j] == other.matrix[i][j]:
+                    return False
+        return True 

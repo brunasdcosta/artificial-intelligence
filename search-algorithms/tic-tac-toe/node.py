@@ -2,9 +2,9 @@
 class Node:
 
     # Construtor.
-    def __init__(self, depth=None, board=None, parent=None):
+    def __init__(self, depth=None, data=None, parent=None):
         self.depth = depth      # Profundidade do nó.
-        self.data = board       # Valor do nó.
+        self.data = data        # Valor do nó.
         self.parent = parent    # Pai do nó.
         self.weight = None      # Peso do nó.
         self.children = []      # Nós filhos do nó.
@@ -14,6 +14,7 @@ class Node:
         self.children.append(node)
 
     # Método que verifica os valores dos ancestrais dos nós. Utilizado para o corte alpha-beta.
+    # level = 'min', 'max'
     # Retorna verdadeiro se foi realizada a poda. Caso contrário, retorna falso.
     def ancestral(self, level):
         if level == 'max': # Se o nível do nó é max.
@@ -31,6 +32,21 @@ class Node:
                 else: # Se o peso do ancestral for menor, continua subindo na árvore.
                     current_parent = current_parent.parent.parent
         return False
+
+    # Método que decide qual próxima jogada o computador deve fazer. Utilizado para o jogo da velha.
+    # level = 'min', 'max'
+    # Retorna o nó que contém a próxima jogada. Caso o nó atual não tenha filhos ou nenhum dos seus filhos tem o valor do jogo atual, então é retornado 'None'.
+    def choose_next_move(self, level, data):
+        next_node = None # Variável que irá armazenar o nó cujo valor é o jogo atual.
+        for child in self.children: # Iterando sobre os filhos do nó atual.
+            if child.data == data:
+                next_node = child
+        if not next_node == None: # Se ele encontrou o filho cujo valor é o jogo atual. 
+            if level == 'max': # Se o computador está jogando como max...
+                return max(next_node.children) # então ele deve escolher a próxima jogada através do maior peso dos filhos do seu filho encontrado.
+            elif level == 'min': # Se o computador está jogando como min...
+                return min(next_node.children) # então ele deve escolher a próxima jogada através do menor peso dos filhos do seu filho encontrado.
+        return None
 
     # Método utilizado para printar a árvore.
     def print_tree(self):
