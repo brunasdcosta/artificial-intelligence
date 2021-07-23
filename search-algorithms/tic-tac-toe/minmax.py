@@ -67,7 +67,7 @@ def print_current_game(game, tile_width=3):
 
 # Função que contém o fluxo do jogo. No caso do algoritmo ser o jogador max, então, antes de chamar esta função, ele deve primeiro fazer a sua jogada.
 # algorithm_player = 'min', 'max'
-def common_game_flow(algorithm_player):
+def common_game_flow(algorithm_player, algorithm_symbol):
     global gameover, number_of_moves, current_game, node
     while not gameover and number_of_moves < 9:
         indexes = get_index_from_user() # Recuperando a jogada do usuário.
@@ -97,7 +97,7 @@ def common_game_flow(algorithm_player):
                 if node.data.winner == 'none': # Se a jogada leva a um empate.
                     print('O jogo empatou!')
                     gameover = True
-                elif node.data.winner == 'O' or node.data.winner == 'o': # Se o algoritmo ganhou.
+                elif node.data.winner == algorithm_symbol: # Se o algoritmo ganhou.
                     print('O computador ganhou!')
                     gameover = True
 
@@ -124,7 +124,7 @@ number_of_moves = 0 # Variável para controlar a quantidade de jogadas.
 
 if option=='X' or option=='x':
     print('Você será o jogador X!')
-    common_game_flow('min')
+    common_game_flow('min', 'o')
 elif option=='O' or option=='o':
     print('Você será o jogador O!\nO computador irá escolher sua primeira jogada...')
     node = max(node.children) # Escolhendo a primeira jogada. Ela será a do filho de maior peso, uma vez que o algoritmo é o jogador max.
@@ -132,7 +132,7 @@ elif option=='O' or option=='o':
     print('Jogada escolhida!\nEstado atual do jogo:')
     print_current_game(current_game.matrix)
     number_of_moves+=1
-    common_game_flow('max')
+    common_game_flow('max', 'x')
     if gameover == False:
         print('O jogo empatou!')
 
