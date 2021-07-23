@@ -2,17 +2,9 @@ from gameboard import GameBoard
 from node import Node
 from queue import Queue
 
-limit = None # Variável utilizada para controle de profundidade.
-queue = Queue() # Fila para controle da sequência de nós que serão abertos.
-possibilities = set() # Conjunto utilizado para impedir repetição de nós na árvore.
-solved = False # Variável para controlar se o jogo foi resolvido ou não.
-results_depth = set() # Conjunto que contém os níveis que há jogos resolvidos.
-
-f = open('bfs.txt', 'a') # Arquivo de saída.
-
 # Função que calcula a busca em largura.
 def bfs():
-    global queue, possibilities, solved # Definindo as variáveis globais que serão manipuladas por esta função.
+    global limit, queue, possibilities, solved, results_depth, f # Definindo as variáveis globais que serão manipuladas por esta função.
     while not queue.empty():
         current_node = queue.get() # Pegando o nó que está na frente da fila.
         if current_node.parent == None:
@@ -35,6 +27,13 @@ def bfs():
                 results_depth.add(node.depth+1)
                 f.write('\t'*next_node.depth+f'{next_node.data} - Nível {next_node.depth} - Pai {next_node.parent.data} - Resolvido\n') # Escrevendo o valor do node atual.
 
+limit = None # Variável utilizada para controle de profundidade.
+queue = Queue() # Fila para controle da sequência de nós que serão abertos.
+possibilities = set() # Conjunto utilizado para impedir repetição de nós na árvore.
+solved = False # Variável para controlar se o jogo foi resolvido ou não.
+results_depth = set() # Conjunto que contém os níveis que há jogos resolvidos.
+
+f = open('bfs.txt', 'a') # Arquivo de saída.
 init_board = GameBoard() # Iniciando um novo jogo.
 init_board.randomize() # Randomizando o tabuleiro.
 # init_board.set_board([[1, 2, 3], [8, 6, 4], [7, None, 5]]) # Atribuindo um tabuleiro com um único movimento para ser concluído.

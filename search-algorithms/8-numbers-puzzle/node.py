@@ -2,9 +2,9 @@
 class Node:
 
     # Construtor.
-    def __init__(self, depth=None, board=None, parent=None):
+    def __init__(self, depth=None, data=None, parent=None):
         self.depth = depth
-        self.data = board
+        self.data = data
         self.parent = parent
         self.children = []
 

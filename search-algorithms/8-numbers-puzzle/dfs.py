@@ -1,18 +1,11 @@
 from gameboard import GameBoard
 from node import Node
 
-limit = 10
-possibilities = set() # Conjunto utilizado para impedir repetição de nós na árvore.
-solved = False # Variável para controlar se o jogo foi resolvido ou não.
-results_depth = set() # Conjunto que contém os níveis que há jogos resolvidos.
-
-f = open('dfs.txt', 'a') # Arquivo de saída.
-
 # Função que calcula a busca em profundidade iterativa.
 def dfs(node):
-    global solved, possibilities # Definindo as variáveis globais que serão manipuladas por esta função.
+    global limit, possibilities, solved, results_depth, f # Definindo as variáveis globais que serão manipuladas por esta função.
     f.write('\t'*node.depth+f'{node.data} - Nível {node.depth}\n') # Escrevendo o valor do node atual.
-    if(node.depth >= limit): # Definindo um limite máximo para a profundidade da busca.
+    if node.depth >= limit: # Definindo um limite máximo para a profundidade da busca.
         return
     children = node.data.find_children() # Calculando os filhos do nó atual a partir do estado do seu tabuleiro.
     for child in children:
@@ -29,9 +22,15 @@ def dfs(node):
         if not child.data.is_done(): # Se o filho não é um estado final, então...
             dfs(child) # Devemos manter na recursão.
 
+limit = 10 # Variável utilizada para controle de profundidade.
+possibilities = set() # Conjunto utilizado para impedir repetição de nós na árvore.
+solved = False # Variável para controlar se o jogo foi resolvido ou não.
+results_depth = set() # Conjunto que contém os níveis que há jogos resolvidos.
+
+f = open('dfs.txt', 'a') # Arquivo de saída.
 init_board = GameBoard() # Iniciando um novo jogo.
-# init_board.randomize() # Randomizando o tabuleiro.
-init_board.set_board([[1, 2, 3], [8, 6, 4], [7, None, 5]]) # Atribuindo um tabuleiro com um único movimento para ser concluído.
+init_board.randomize() # Randomizando o tabuleiro.
+# init_board.set_board([[1, 2, 3], [8, 6, 4], [7, None, 5]]) # Atribuindo um tabuleiro com um único movimento para ser concluído.
 possibilities.add(init_board) # Adicionando o estado inicial no conjunto de possibilidades.
 f.write(f'Novo jogo usando busca em profundidade com limite {limit}.\nEstado inicial: {init_board}\n')
 
