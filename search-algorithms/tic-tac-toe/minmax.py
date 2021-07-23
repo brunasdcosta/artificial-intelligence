@@ -12,7 +12,7 @@ def min_max_with_dfs(node, symbol):
         next_node = Node(node.depth+1, child) # Criando um nó que representa o jogo da iteração atual.
         node_weight = child.is_done() # Verificando se alguém ganhou.
         if node_weight == None: # Senão, então temos que ver as possíveis próximas jogadas na iteração seguinte.
-            if next_node.depth == 4: # Porém, se o filho está no último nível, que no caso é o 9, então houve empate.
+            if next_node.depth == 9: # Porém, se o filho está no último nível, que no caso é o 9, então houve empate.
                 next_node.weight = 0  # O peso 0 significa que houve empate.
                 next_node.data.weight = 'noone'
                 f.write('\t'*next_node.depth + f'{next_node.data} - Nível {next_node.depth} - empate\n')
@@ -133,5 +133,7 @@ elif option=='O' or option=='o':
     print_current_game(current_game.matrix)
     number_of_moves+=1
     common_game_flow('max')
+    if gameover == False:
+        print('O jogo empatou!')
 
 ########## Fim do jogo com o usuário ##########
