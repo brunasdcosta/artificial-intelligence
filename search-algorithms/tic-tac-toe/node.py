@@ -2,12 +2,14 @@
 class Node:
 
     # Construtor.
-    def __init__(self, depth=None, data=None, parent=None):
-        self.depth = depth      # Profundidade do nó.
-        self.data = data        # Valor do nó.
-        self.parent = parent    # Pai do nó.
-        self.weight = None      # Peso do nó.
-        self.children = []      # Nós filhos do nó.
+    def __init__(self, depth=0, data=None, parent=None, qty_wrong_placed=8):
+        self.depth = depth # Profundidade do nó.
+        self.data = data # Valor do nó.
+        self.parent = parent # Pai do nó.
+        self.weight = None # Peso do nó.
+        self.children = [] # Nós filhos do nó.
+        self.qty_wrong_placed = qty_wrong_placed # Quantidade de elementos na posição errada.
+        self.astar_weight = depth + qty_wrong_placed # Peso do nó para a busca A*.
 
     # Método para adicionar um filho ao nó da árvore.
     def add_child(self, node):
@@ -47,6 +49,11 @@ class Node:
             elif level == 'min': # Se o computador está jogando como min...
                 return min(next_node.children) # então ele deve escolher a próxima jogada através do menor peso dos filhos do seu filho encontrado.
         return None
+
+    # Método para atribuir o peso do nó na busca A*.
+    def set_astar_weight(self, qty_wrong_placed):
+        self.qty_wrong_placed = qty_wrong_placed
+        self.astar_weight = self.depth + qty_wrong_placed
 
     # Método utilizado para printar a árvore.
     def print_tree(self):

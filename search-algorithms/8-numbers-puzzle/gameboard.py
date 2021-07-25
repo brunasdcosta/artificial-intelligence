@@ -149,6 +149,61 @@ class GameBoard:
                 child2.move_down(1, 2) # - Mover a célula de linha 1 e coluna 2 para baixo.
                 return [child1, child2]
 
+    # Método que escolhe o nó filho de maior peso.
+    def choose_greedy(self, possibilities):
+        children = self.find_children()
+        greedy_choice = None
+        for child in children:
+            if child in possibilities:
+                continue
+            if greedy_choice == None:
+                greedy_choice = child
+            elif greedy_choice.qty_correct_places() < child.qty_correct_places():
+                greedy_choice = child
+        return greedy_choice
+
+    # Método que calcula a quantidade de elementos na posição correta.
+    def qty_correct_places(self):
+        val = 0
+        if self.matrix[0][0] == 1: 
+            val += 1
+        if self.matrix[0][1] == 2:
+            val += 1
+        if self.matrix[0][2] == 3:
+            val += 1
+        if self.matrix[1][0] == 8:
+            val += 1
+        if self.matrix[1][2] == 4:
+            val += 1
+        if self.matrix[2][0] == 7:
+            val += 1
+        if self.matrix[2][1] == 6:
+            val += 1
+        if self.matrix[2][2] == 5:
+            val += 1
+        return val
+
+    # Método que calcula a quantidade de elementos na posição errada.
+    def qty_incorrect_places(self):
+        val = 0
+        if self.matrix[0][0] != 1: 
+            val += 1
+        if self.matrix[0][1] != 2:
+            val += 1
+        if self.matrix[0][2] != 3:
+            val += 1
+        if self.matrix[1][0] != 8:
+            val += 1
+        if self.matrix[1][2] != 4:
+            val += 1
+        if self.matrix[2][0] != 7:
+            val += 1
+        if self.matrix[2][1] != 6:
+            val += 1
+        if self.matrix[2][2] != 5:
+            val += 1
+        return val
+
     # Método que verifica se o objetivo foi alcançado, ou seja, se todos os números estão no lugar.
     def is_done(self):
         if self.matrix[0][0] == 1 and self.matrix[0][1] == 2 and self.matrix[0][2] == 3 and self.matrix[1][0] == 8 and self.matrix[1][1] == None and self.matrix[1][2] == 4 and self.matrix[2][0] == 7 and self.matrix[2][1] == 6 and self.matrix[2][2] == 5:
