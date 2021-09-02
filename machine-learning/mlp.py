@@ -28,7 +28,7 @@ def get_performance(mlp, set_type, x, y, mark_time=False):
 def run(x_train, x_test, y_train, y_test):
 	mlp = MLPClassifier(solver = 'sgd',
 						activation = 'logistic', # Função de propagação.
-						hidden_layer_sizes = (8, 8), # Número e dimensão de camadas escondidas.
+						hidden_layer_sizes = (4), # Número e dimensão de camada escondida.
 						alpha = 0.01,
 						learning_rate = 'adaptive',
 						learning_rate_init = 0.005,
@@ -52,7 +52,7 @@ def run(x_train, x_test, y_train, y_test):
 
 file_path = 'diabetes.xlsx'
 dataframe = pd.read_excel(file_path, engine='openpyxl') # Carregando os dados.
-x = dataframe.iloc[:, 1:-1] # Conjunto de valores X (entradas).
+x = dataframe.iloc[:, :-1] # Conjunto de valores X (entradas).
 y = dataframe.iloc[:, -1] # Conjunto de valores Y (saídas).
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state = 25) # Dividindo os dados entre conjunto de teste e de treino.
 print(f'{"_"*54}\n \t\t Dados sem tratamento\n{"_"*54}')
