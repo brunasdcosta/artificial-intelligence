@@ -25,7 +25,7 @@ def get_performance(mlp, set_type, x, y, mark_time=False):
 	print(f'Falsos positivos: {conf_matrix[0][1]} ({conf_matrix[0][1]/17.02}%)')
 	print(f'Falsos negativos: {conf_matrix[1][0]} ({conf_matrix[1][0]/17.02}%)')
 
-def run(x_train, x_test, y_train, y_test):
+def run_mlp(x_train, x_test, y_train, y_test):
 	mlp = MLPClassifier(solver = 'sgd',
 						activation = 'logistic', # Função de propagação.
 						hidden_layer_sizes = (4), # Número e dimensão de camada escondida.
@@ -50,26 +50,15 @@ def run(x_train, x_test, y_train, y_test):
 	print('_'*54)
 	get_performance(mlp, 'Teste', x_test, y_test, True) # Apresentando o desempenho alcançado sobre o conjunto de teste.
 
-file_path = 'diabetes.xlsx'
-dataframe = pd.read_excel(file_path, engine='openpyxl') # Carregando os dados.
-x = dataframe.iloc[:, :-1] # Conjunto de valores X (entradas).
-y = dataframe.iloc[:, -1] # Conjunto de valores Y (saídas).
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state = 25) # Dividindo os dados entre conjunto de teste e de treino.
-print(f'{"_"*54}\n \t\t Dados sem tratamento\n{"_"*54}')
-run(x_train, x_test, y_train, y_test)
+def run(file_path, name):
+	dataframe = pd.read_excel(file_path, engine='openpyxl') # Carregando os dados.
+	x = dataframe.iloc[:, :-1] # Conjunto de valores X (entradas).
+	y = dataframe.iloc[:, -1] # Conjunto de valores Y (saídas).
+	x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state = 25) # Dividindo os dados entre conjunto de teste e de treino.
+	print(f'{"_"*54}\n{name}\n{"_"*54}')
+	run_mlp(x_train, x_test, y_train, y_test)
 
-file_path = 'diabetes2.xlsx'
-dataframe = pd.read_excel(file_path, engine='openpyxl') # Carregando os dados.
-x = dataframe.iloc[:, :-1] # Conjunto de valores X (entradas).
-y = dataframe.iloc[:, -1] # Conjunto de valores Y (saídas).
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state = 25) # Dividindo os dados entre conjunto de teste e de treino.
-print(f'{"_"*54}\n \t\tDados com normalização\n{"_"*54}')
-run(x_train, x_test, y_train, y_test)
-
-file_path = 'diabetes3.xlsx'
-dataframe = pd.read_excel(file_path, engine='openpyxl') # Carregando os dados.
-x = dataframe.iloc[:, :-1] # Conjunto de valores X (entradas).
-y = dataframe.iloc[:, -1] # Conjunto de valores Y (saídas).
-x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state = 25) # Dividindo os dados entre conjunto de teste e de treino.
-print(f'{"_"*54}\n \t Dados com normalização e distribuição igual\n{"_"*54}')
-run(x_train, x_test, y_train, y_test)
+run('diabetes.xlsx', ' \t\t Dados sem tratamento')
+run('diabetes2.xlsx', ' \t\tDados com normalização')
+run('diabetes3.xlsx', ' \tDados com normalização e distribuição igual')
+run('diabetes4.xlsx', ' \t      Dados com distribuição igual')
