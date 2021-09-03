@@ -57,3 +57,19 @@ y = dataframe.iloc[:, -1] # Conjunto de valores Y (saídas).
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state = 25) # Dividindo os dados entre conjunto de teste e de treino.
 print(f'{"_"*54}\n \t\t Dados sem tratamento\n{"_"*54}')
 run(x_train, x_test, y_train, y_test)
+
+file_path = 'diabetes2.xlsx'
+dataframe = pd.read_excel(file_path, engine='openpyxl') # Carregando os dados.
+x = dataframe.iloc[:, :-1] # Conjunto de valores X (entradas).
+y = dataframe.iloc[:, -1] # Conjunto de valores Y (saídas).
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state = 25) # Dividindo os dados entre conjunto de teste e de treino.
+print(f'{"_"*54}\n \t\tDados com normalização\n{"_"*54}')
+run(x_train, x_test, y_train, y_test)
+
+file_path = 'diabetes3.xlsx'
+dataframe = pd.read_excel(file_path, engine='openpyxl') # Carregando os dados.
+x = dataframe.iloc[:, :-1] # Conjunto de valores X (entradas).
+y = dataframe.iloc[:, -1] # Conjunto de valores Y (saídas).
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.3, random_state = 25) # Dividindo os dados entre conjunto de teste e de treino.
+print(f'{"_"*54}\n \t Dados com normalização e distribuição igual\n{"_"*54}')
+run(x_train, x_test, y_train, y_test)
